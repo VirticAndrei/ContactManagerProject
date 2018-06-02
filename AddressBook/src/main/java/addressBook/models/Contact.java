@@ -13,13 +13,9 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.DatatypeConverter;
 
 
-
 @Entity(name="contact")
 public class Contact implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "idcontact", nullable = false)
@@ -66,9 +62,6 @@ public class Contact implements Serializable{
 			imageSrc = "data:image/png;base64," + base64;
 		}
 		return imageSrc;
-	}
-	public byte[] getPictureBytes(){
-		return picture;
 	}
 	public void setPicture(byte[] picture){
 		this.picture = picture;

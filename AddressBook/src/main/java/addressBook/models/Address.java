@@ -13,9 +13,6 @@ import javax.persistence.OneToOne;
 @Entity(name="address")
 public class Address implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "idaddress", nullable = false)
@@ -65,15 +62,12 @@ public class Address implements Serializable{
 	public String getStreet() {
 		return street;
 	}
-
 	public void setStreet(String street) {
 		this.street = street;
 	}
-
 	public int getNumber() {
 		return number;
 	}
-
 	public void setNumber(int number) {
 		this.number = number;
 	}
@@ -86,6 +80,7 @@ public class Address implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Address [id=" + idAddress + ", email=" + email + ", phone=" + "]";
+		return "Address [idAddress=" + idAddress + ", email=" + email + ", phone=" + phone + ", street=" + street
+				+ ", number=" + number + "]";
 	}
 }

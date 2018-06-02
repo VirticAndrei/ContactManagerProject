@@ -1,7 +1,5 @@
 package addressBook.service;
 
-//import java.util.Optional;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,6 @@ public class AddressService {
 
 	@Autowired 
 	private AddressRepository addressRepository;
-/*	@Autowired
-	private ContactRepository contactRepository;*/
-	
 	
 	public void saveAddress(Address address) {
 		addressRepository.save(address);

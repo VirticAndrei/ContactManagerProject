@@ -1,6 +1,7 @@
 package addressBook.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +27,15 @@ public class ContactService {
 		for(Contact contact : contactRepository.findAll()){
 			contacts.add(contact);
 		}
+		Collections.sort(contacts, 
+                (o1, o2) -> o1.getName().compareTo(o2.getName()));
 		return contacts;
 	}
 	
 	public Contact findById(int id){
 		Optional<Contact> optionalContact = contactRepository.findById(id);
 		Contact contact = new Contact();
-		if(optionalContact.isPresent())
-		{
+		if(optionalContact.isPresent()){
 			contact = optionalContact.get();
 			return contact;
 		}
@@ -43,8 +45,7 @@ public class ContactService {
 	public Contact findByName(String name){
 		Contact findedContact = new Contact();
 		for(Contact contact : contactRepository.findAll()){
-			if(contact.getName().compareTo(name) == 0)
-			{
+			if(contact.getName().compareTo(name) == 0){
 				findedContact = contact;
 			}
 		}
@@ -54,8 +55,5 @@ public class ContactService {
 	public void saveContact(Contact contact){
 		contactRepository.save(contact);
 	}
-	
-	public void deleteContact(int id){
-		contactRepository.deleteById(id);
-	}
+
 }

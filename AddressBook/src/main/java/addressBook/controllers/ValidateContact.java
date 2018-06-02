@@ -31,7 +31,8 @@ public class ValidateContact {
 	public void validate_name(){
 		errorMsg = "";
     	String regex ="[A-Za-z ]+";
-        if (contact.getName().matches(regex) == false || contact.getName().length() < 3 || contact.getName().length() > 45){
+        if (contact.getName().matches(regex) == false 
+        		|| contact.getName().length() < 3 || contact.getName().length() > 45){
             error = true;
             errorMsg = "*Incorrect name!";
         }
@@ -41,7 +42,8 @@ public class ValidateContact {
 	public void validate_email(){
 		errorMsg = "";
     	String regex = "[A-Za-z0-9._-]+[@][A-Za-z.]+";
-        if(contact.getAddress().getEmail().matches(regex) == false || contact.getAddress().getEmail().length() < 12){
+        if(contact.getAddress().getEmail().matches(regex) == false 
+        		|| contact.getAddress().getEmail().length() < 12){
             error = true;
             errorMsg = "*Incorrect email!";
         }
@@ -62,7 +64,8 @@ public class ValidateContact {
     public void validate_street(){
 		errorMsg = "";
 		String regex = "[A-Za-z0-9. ,-]+";
-        if(contact.getAddress().getStreet().matches(regex) == false || contact.getAddress().getStreet().length() < 3){
+        if(contact.getAddress().getStreet().matches(regex) == false 
+        		|| contact.getAddress().getStreet().length() < 3){
             error = true;
             errorMsg = "*Incorrect street!";
         }
@@ -73,7 +76,8 @@ public class ValidateContact {
     	errorMsg = "";
     	String regex = "[0-9]+";
     	String number = "" + contact.getAddress().getNumber();
-        if (number.matches(regex) == false || number.length() < 1 || number.length() > 3){
+        if (number.matches(regex) == false || number.length() < 1 
+        		|| number.length() > 3){
             error = true;
             errorMsg = "* Incorrect number!";
         }
@@ -86,6 +90,7 @@ public class ValidateContact {
         }
         return false;
     }
+    
     public List<String> getErrors(){
         return errorMessages;
     } 

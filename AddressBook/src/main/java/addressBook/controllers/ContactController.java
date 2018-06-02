@@ -1,12 +1,13 @@
 package addressBook.controllers;
 
-
-
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import sun.misc.BASE64Decoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import addressBook.models.Contact;
 import addressBook.service.ContactService;
 import addressBook.service.AddressService;
 
+@SuppressWarnings("restriction")
 @Controller
 public class ContactController {
 	
@@ -28,15 +30,19 @@ public class ContactController {
 	@Autowired
 	AddressService addressService;
 	
+	@Value("${spring.default.image}")
+	private String userDefaultImage;
+	
 	private String mode;
 	
 	@GetMapping("/")
 	public String home(HttpServletRequest request){
-		Contact contact = new Contact();
-		request.setAttribute("contact", contact);
+		request.setAttribute("contacts", contactService.findAll());
 		mode = "MODE_HOME";
 		request.setAttribute("mode", mode);
+		
 		return "index";
+		
 	}
 	
 	@GetMapping("/all-contacts")
@@ -44,7 +50,9 @@ public class ContactController {
 		request.setAttribute("contacts", contactService.findAll());
 		mode = "MODE_CONTACTS";
 		request.setAttribute("mode", mode);
+		
 		return "index";
+		
 	}
 	
 	@GetMapping("/new-contact")
@@ -53,20 +61,40 @@ public class ContactController {
 		Address address = new Address();
 		request.setAttribute("contact", contact);
 		request.setAttribute("address", address);
+		request.setAttribute("pictureFile", userDefaultImage.toString());
+		request.setAttribute("titleString", "Add Contact");
 		mode = "MODE_NEW";
 		request.setAttribute("mode", mode);
+		
 		return "index";
+		
 	}
 	
 	@PostMapping("/save-contact")
-	public String saveContact(@ModelAttribute Contact contact, @ModelAttribute Address address, @RequestParam("file") MultipartFile file, BindingResult bindingResult, HttpServletRequest request){
+	public String saveContact(@ModelAttribute Contact contact, @ModelAttribute Address address, @RequestParam("pictureFile") MultipartFile pictureFile, BindingResult bindingResult, HttpServletRequest request){
+		address.setId(Integer.parseInt(request.getParameter("id_address")));
+		contact.setId(Integer.parseInt(request.getParameter("id_contact")));
 		contact.setAddress(address);
 		ValidateContact validateContact = new ValidateContact(contact);
 		if(validateContact.isValid()){
-			if(file!=null){
-				try{contact.setPicture(file.getBytes());}
-				catch(IOException ex){}
+			if(!pictureFile.isEmpty()){
+				try{
+					contact.setPicture(pictureFile.getBytes());
+				} catch(IOException e){e.printStackTrace();}
 			}
+			else{
+				String image = request.getParameter("pictureString");
+				StringTokenizer parts = new StringTokenizer(image, ","); 
+				String imageString = parts.nextToken();
+				imageString = parts.nextToken();
+				byte[] imageByte = null;
+				BASE64Decoder decoder = new BASE64Decoder();
+				try {
+					imageByte = decoder.decodeBuffer(imageString);
+				} catch (IOException e) {e.printStackTrace();}
+				contact.setPicture(imageByte);
+			}
+			address.setContact(contact);
 			addressService.saveAddress(address);
 			contactService.saveContact(contact);
 			request.setAttribute("contacts", contactService.findAll());
@@ -77,11 +105,13 @@ public class ContactController {
 			request.setAttribute("errorMessages", validateContact.getErrors());
 			request.setAttribute("mode", mode);
 		}
+		
 		return "index";
+		
 	}
 	
 	@GetMapping("/search-contact")
-	public String saveContact(@RequestParam String name, HttpServletRequest request){
+	public String searchContact(@RequestParam String name, HttpServletRequest request){
 		Contact sendContact = contactService.findByName(name);
 		request.setAttribute("contact", sendContact);
 		request.setAttribute("address", sendContact.getAddress());
@@ -95,15 +125,21 @@ public class ContactController {
 		}
 		
 		return "index";
+		
 	}
 	
 	@GetMapping("/update-contact")
 	public String updateContact(@RequestParam int idContact, HttpServletRequest request){
-		request.setAttribute("contact", contactService.findById(idContact));
-		request.setAttribute("address", contactService.findById(idContact).getAddress());
+		Contact contact = contactService.findById(idContact);
+		request.setAttribute("contact", contact);
+		request.setAttribute("address", contact.getAddress());
+		request.setAttribute("pictureFile", contact.getPicture());
+		request.setAttribute("titleString", "Edit Contact");
 		mode = "MODE_UPDATE";
 		request.setAttribute("mode", mode);
+		
 		return "index";
+		
 	}
 	
 	@GetMapping("/delete-contact")
@@ -114,6 +150,8 @@ public class ContactController {
 		request.setAttribute("contacts", contactService.findAll());
 		mode = "MODE_CONTACTS";
 		request.setAttribute("mode", mode);
+		
 		return "index";
+		
 	}
 }
