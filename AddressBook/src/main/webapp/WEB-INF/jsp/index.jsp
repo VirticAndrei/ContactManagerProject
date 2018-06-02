@@ -56,7 +56,7 @@
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered text-left">
 							<thead>
-								<tr>
+								<tr class="text-primary">
 									<th>Name</th>
 									<th>Picture</th>
 									<th>Email</th>
@@ -97,42 +97,42 @@
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="name" value="${contact.name}"/>
 							</div>
-							<label class="control-label col-md-3">${errorMessages.get(0)}</label>				
+							<label class="control-label col-md-3 text-warning">${errorMessages.get(0)}</label>				
 						</div>
 						<div class="form-group">
 							<label class="control-label col-md-3">Email:</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="email" value="${address.email}"/>
 							</div>
-							<label class="control-label col-md-3">${errorMessages.get(1)}</label>				
+							<label class="control-label col-md-3 text-warning">${errorMessages.get(1)}</label>				
 						</div>
 						<div class="form-group">
 							<label class="control-label col-md-3">Phone:</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="phone" value="${address.phone}"/>
 							</div>	
-							<label class="control-label col-md-3">${errorMessages.get(2)}</label>			
+							<label class="control-label col-md-3 text-warning">${errorMessages.get(2)}</label>			
 						</div>
 						<div class="form-group">
 							<label class="control-label col-md-3">Street:</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="street" value="${address.street}"/>
 							</div>	
-							<label class="control-label col-md-3">${errorMessages.get(3)}</label>			
+							<label class="control-label col-md-3 text-warning">${errorMessages.get(3)}</label>			
 						</div>
 						<div class="form-group">
 							<label class="control-label col-md-3">Number:</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="number" value="${address.number}"/>
 							</div>			
-							<label class="control-label col-md-3">${errorMessages.get(4)}</label>	
+							<label class="control-label col-md-3 text-warning">${errorMessages.get(4)}</label>	
 						</div>
 						<div class="form-group">
 							<label class="control-label col-md-3">Picture:</label>
 							<div class="col-md-6">
 								<input type="file" class="form-control" name="pictureFile"/>
 							</div>
-							<label class="control-label col-md-3">*maximum size: 1MB</label>
+							<label class="control-label col-md-3 text-warning">*maximum size: 1MB</label>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-primary" value="Save"/>

@@ -5,13 +5,15 @@ import java.util.List;
 
 import addressBook.models.Contact;
 
+/**/
 public class ValidateContact {
 
-	private Contact contact;
-	private Boolean error;
-	private List<String> errorMessages;
-	private String errorMsg;
+	private final Contact contact;
+	private static Boolean error;
+	private static List<String> errorMessages;
+	private static String errorMsg;
 	
+
 	public ValidateContact(Contact contact){
 		this.contact = contact;
 		error = false;
@@ -19,19 +21,19 @@ public class ValidateContact {
 		validate();
 	}
 	
-	public void validate(){
+	private void validate(){
 		error = false;
-        validate_name();
-        validate_email();
-        validate_phone();
-        validate_street();
-        validate_number();
+        validateName();
+        validateEmail();
+        validatePhone();
+        validateStreet();
+        validateNumber();
     }
 	
-	public void validate_name(){
+	private void validateName(){
 		errorMsg = "";
-    	String regex ="[A-Za-z ]+";
-        if (contact.getName().matches(regex) == false 
+    	final String regex ="[A-Za-z ]+";
+        if (!contact.getName().matches(regex)
         		|| contact.getName().length() < 3 || contact.getName().length() > 45){
             error = true;
             errorMsg = "*Incorrect name!";
@@ -39,10 +41,10 @@ public class ValidateContact {
         errorMessages.add(errorMsg);
     }
 	
-	public void validate_email(){
+	private void validateEmail(){
 		errorMsg = "";
-    	String regex = "[A-Za-z0-9._-]+[@][A-Za-z.]+";
-        if(contact.getAddress().getEmail().matches(regex) == false 
+    	final String regex = "[A-Za-z0-9._-]+[@][A-Za-z.]+";
+        if(!contact.getAddress().getEmail().matches(regex) 
         		|| contact.getAddress().getEmail().length() < 12){
             error = true;
             errorMsg = "*Incorrect email!";
@@ -50,47 +52,51 @@ public class ValidateContact {
         errorMessages.add(errorMsg);
     }
     
-    public void validate_phone(){
+	private void validatePhone(){
     	errorMsg = "";
-    	String regex = "[0-9]+";
-    	String phone = "" + contact.getAddress().getPhone();
-        if (phone.matches(regex) == false || phone.length() != 10){
+    	final String regex = "[0-9]+";
+    	final String phone = contact.getAddress().getPhone().toString();
+        if (!phone.matches(regex) || phone.length() != 10){
             error = true;
             errorMsg = "*Incorrect phone!";
         }
         errorMessages.add(errorMsg);
     }
     
-    public void validate_street(){
+	private void validateStreet(){
 		errorMsg = "";
-		String regex = "[A-Za-z0-9. ,-]+";
-        if(contact.getAddress().getStreet().matches(regex) == false 
+		final String regex = "[A-Za-z0-9. ,-]+";
+        if(!contact.getAddress().getStreet().matches(regex) 
         		|| contact.getAddress().getStreet().length() < 3){
             error = true;
             errorMsg = "*Incorrect street!";
         }
         errorMessages.add(errorMsg);
     }
-    
-    public void validate_number(){
+
+	private void validateNumber(){
     	errorMsg = "";
     	String regex = "[0-9]+";
-    	String number = "" + contact.getAddress().getNumber();
-        if (number.matches(regex) == false || number.length() < 1 
+    	final String number = "" + contact.getAddress().getNumber();
+        if (!number.matches(regex) || number.length() < 1 
         		|| number.length() > 3){
             error = true;
             errorMsg = "* Incorrect number!";
         }
         errorMessages.add(errorMsg);
     }
-    
+
     public Boolean isValid(){
-        if (error == false){
-            return true;
+        Boolean valid;
+    	if (!error){
+            valid = true;
         }
-        return false;
+    	else{
+    		valid = false;
+    	}
+        return valid;
     }
-    
+
     public List<String> getErrors(){
         return errorMessages;
     } 

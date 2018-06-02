@@ -103,6 +103,7 @@ public class ContactController {
 		}
 		else{
 			request.setAttribute("errorMessages", validateContact.getErrors());
+			request.setAttribute("titleString", "Add Contact");
 			request.setAttribute("mode", mode);
 		}
 		

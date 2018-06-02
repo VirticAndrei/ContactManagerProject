@@ -34,6 +34,11 @@ public class Address implements Serializable{
 		
 	}
 	
+	/**
+	* 
+	*
+	* @author Andrei Virtic
+	*/
 	public Address(String email, String phone, Contact contact) {
 		super();
 		this.email = email;
